@@ -13,6 +13,11 @@ pipeline {
     }
 
     stage('Send to sonaqube') {
+  
+      when {
+        expression { currentBuild.result == null || currentBuild.result == 'SUCCESS' }
+      }
+ 
       steps {
         script {
           docker.image('sonarsource/sonar-scanner-cli').inside('--network ci-network') {
