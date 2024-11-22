@@ -13,7 +13,8 @@ pipeline {
         script {
           docker.image('sonarsource/sonar-scanner-cli').inside('--network ci-network') {
             sh '''
-              sonar-scanner
+              sonar-scanner \
+                -Dsonar.host.url=http://sonarqube:9000
             '''
           }
         }
