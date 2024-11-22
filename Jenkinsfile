@@ -9,11 +9,13 @@ pipeline {
     }
 
     stage('Send to sonaqube') {
-      script {
-        docker.image('sonarsource/sonar-scanner-cli').inside('--network sonarqube') {
-          sh '''
-            sonar-scanner
-          '''
+      steps {
+        script {
+          docker.image('sonarsource/sonar-scanner-cli').inside('--network sonarqube') {
+            sh '''
+              sonar-scanner
+            '''
+          }
         }
       }
     }
