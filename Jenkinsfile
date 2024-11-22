@@ -1,10 +1,6 @@
 pipeline {
   agent any
 
-  tools {
-    sonarQube 'Server' // Nombre del scanner configurado en Jenkins
-  }
-
   environment {
     SONAR_AUTH_TOKEN = credentials('qube-test')
   }
@@ -18,7 +14,7 @@ pipeline {
 
     stage('Code Analysis') {
       steps {
-          withSonarQubeEnv('SonarScanner') {
+          withSonarQubeEnv('Server') {
               sh '''
               sonar-scanner \
                 -Dsonar.host.url=http://sonarqube:9000 \
