@@ -20,15 +20,19 @@ pipeline {
  
       steps {
         script {
-          docker.image('sonarsource/sonar-scanner-cli').inside('--network ci-network') {
-            sh '''
-              sonar-scanner \
-                -Dsonar.host.url=http://sonarqube:9000 \
-                -Dsonar.projectKey=my-php-app \
-                -Dsonar.sources=src \
-                -Dsonar.branch.name=${BRANCH_NAME} \
-                -Dsonar.token=$SONAR_AUTH_TOKEN
-            '''
+          try {
+            docker.image('sonarsource/sonar-scanner-cli').inside('--network ci-network') {
+              sh '''
+                sonar-scanner \
+                  -Dsonar.host.url=http://sonarqube:9000 \
+                  -Dsonar.projectKey=my-php-app \
+                  -Dsonar.sources=src \
+                  -Dsonar.branch.name=${BRANCH_NAME} \
+                  -Dsonar.token=$SONAR_AUTH_TOKEN
+              '''
+            }
+          } catch(Exception e) {
+            error("Stopping the pipeline due to a failure.")
           }
         }
       }
