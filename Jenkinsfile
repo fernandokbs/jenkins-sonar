@@ -2,7 +2,7 @@ pipeline {
   agent any
 
   environment {
-    SONAR_AUTH_TOKEN = credentials('Sonarqube')
+    SONAR_AUTH_TOKEN = credentials('qube-test')
   }
 
   stages {
