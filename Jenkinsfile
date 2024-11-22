@@ -1,6 +1,10 @@
 pipeline {
   agent any
 
+  tools {
+    sonarQube 'Server' // Nombre del scanner configurado en Jenkins
+  }
+
   environment {
     SONAR_AUTH_TOKEN = credentials('qube-test')
   }
@@ -12,29 +16,18 @@ pipeline {
       }
     }
 
-    stage('Send to sonaqube') {
-  
-      when {
-        expression { currentBuild.result == null || currentBuild.result == 'SUCCESS' }
-      }
- 
+    stage('Code Analysis') {
       steps {
-        script {
-          try {
-            docker.image('sonarsource/sonar-scanner-cli').inside('--network ci-network') {
+          withSonarQubeEnv('SonarScanner') {
               sh '''
-                sonar-scanner \
-                  -Dsonar.host.url=http://sonarqube:9000 \
-                  -Dsonar.projectKey=my-php-app \
-                  -Dsonar.sources=src \
-                  -Dsonar.branch.name=${BRANCH_NAME} \
-                  -Dsonar.token=$SONAR_AUTH_TOKEN
+              sonar-scanner \
+                -Dsonar.host.url=http://sonarqube:9000 \
+                -Dsonar.projectKey=my-php-app \
+                -Dsonar.sources=src \
+                -Dsonar.branch.name=${BRANCH_NAME} \
+                -Dsonar.token=$SONAR_AUTH_TOKEN
               '''
-            }
-          } catch(Exception e) {
-            error("Stopping the pipeline due to a failure.")
           }
-        }
       }
     }
   }
