@@ -13,20 +13,6 @@ pipeline {
     }
 
     stage('Code Analysis') {
-      steps {
-          withSonarQubeEnv('SonarScanner') {
-              sh '''
-              sonar-scanner \
-                -Dsonar.projectKey=tu_proyecto \
-                -Dsonar.sources=. \
-                -Dsonar.host.url=http://localhost:9000 \
-                -Dsonar.login=tu_token
-              '''
-          }
-      }
-    }
-
-    stage('Code Analysis') {
   
       when {
         expression { currentBuild.result == null || currentBuild.result == 'SUCCESS' }
