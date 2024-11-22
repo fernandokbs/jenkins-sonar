@@ -7,7 +7,6 @@ class CalculatorTest extends TestCase
 {
     public function testAdd()
     {
-        $password = '123asdfa2';
         $calculator = new Calculator();
         $this->assertEquals(5, $calculator->add(2, 3), "Adding 2 and 3 should return 5");
     }
