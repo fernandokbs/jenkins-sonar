@@ -1,6 +1,10 @@
 pipeline {
   agent any
 
+  environment {
+    SONAR_TOKEN = credentials('Sonar')
+  }
+
   stages {
     stage('Vertificar Docker') {
       steps {
@@ -17,7 +21,7 @@ pipeline {
                 -Dsonar.host.url=http://sonarqube:9000 \
                 -Dsonar.projectKey=my-php-app \
                 -Dsonar.sources=src \
-                -Dsonar.login=squ_150b655a5d715f39e293d04ac2ed38ed89c7d42d
+                -Dsonar.login=$SONAR_TOKEN
             '''
           }
         }
