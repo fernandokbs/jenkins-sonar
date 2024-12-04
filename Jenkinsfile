@@ -14,7 +14,7 @@ pipeline {
 
     stage('docker sonar') {
       steps {
-        withSonarQubeEnv('Docker server') {
+        withSonarQubeEnv('docker sonar') {
           script {
             docker.image('sonarsource/sonar-scanner-cli').inside('--network ci-network') {
               sh '''
