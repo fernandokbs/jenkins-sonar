@@ -30,5 +30,20 @@ pipeline {
         }
       }
     }
+
+    stage('Deploy') {
+      steps {
+        script {
+          def qg = waitForQualityGate()
+          if (qg.status != 'OK') {
+            error "PIPELINE ERROR! ${qg.status}"
+          }
+
+          if (qg.status == 'OK') {
+            error "PIPELINE SUCCESSS! ${qg.status}"
+          }
+        }
+      }
+    }
   }
 }
