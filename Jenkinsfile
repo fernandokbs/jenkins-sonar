@@ -21,7 +21,8 @@ pipeline {
                 -Dsonar.host.url=http://sonarqube:9000 \
                 -Dsonar.projectKey=my-php-app \
                 -Dsonar.sources=src \
-                -Dsonar.login=$SONAR_TOKEN
+                -Dsonar.login=$SONAR_TOKEN \
+                -Dsonar.branch.name=${BRANCH_NAME}
             '''
           }
         }
