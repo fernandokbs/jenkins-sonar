@@ -12,7 +12,7 @@ pipeline {
       }
     }
 
-    stage('Sonarqube') {
+    stage('docker sonar') {
       steps {
         withSonarQubeEnv('Docker server') {
           script {
